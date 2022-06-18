@@ -39,6 +39,7 @@ const promptStart = () => {
         "Add a role",
         "Add an employee",
         "Update an employee role",
+        "Quit application",
       ],
     },
     {
@@ -210,6 +211,19 @@ const promptStart = () => {
         }
       },
       choices: dummyRoles,
+    },
+    {
+      type: "confirm",
+      name: "quitConfirm",
+      message: "Are you sure you want to QUIT the application? (Required)",
+      when: ({ mainMenu }) => {
+        if (mainMenu === "Quit application") {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      default: false,
     },
   ]);
 };
