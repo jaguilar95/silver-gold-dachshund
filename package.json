@@ -1,0 +1,26 @@
+{
+  "name": "silver-gold-dachshund",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaguilar95/silver-gold-dachshund.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaguilar95/silver-gold-dachshund/issues"
+  },
+  "homepage": "https://github.com/jaguilar95/silver-gold-dachshund#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "inquirer": "^8.2.4",
+    "mysql2": "^2.3.3"
+  }
+}
