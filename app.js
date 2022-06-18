@@ -13,26 +13,19 @@ const dummyRoles = [
   "Sanitation Technician",
   "Warehouse Picker",
 ];
-const dummyManagers = [
-  "Jonathan Joestar",
-  "Jotaro Kujo",
-  "Josuke Higashitaka",
-  "Giorno Giovanna",
-  "Jolyne Cujoh",
-  "Joseph Joestar",
+const dummyManagers = ["Jonathan Joestar", "Jotaro Kujo", "Josuke Higashitaka"];
+const dummyEmployees = [
+  "Dio Brando",
+  "Will Anthonio Zeppeli",
+  "Kiochi Hirose",
+  "Rohan Kishibe",
+  "Okuyasu Nijimura",
+  "Caesar Anthonio Zeppeli",
+  "Rober E.O. Speedwagon",
+  "Jean Pierre Polnareff",
 ];
 
 const promptStart = () => {
-  /*
-    What would you like to do?
-        * View all departments
-        * View all roles
-        * View all Employees
-        * Add a department
-        * Add a role
-        * Add an employee
-        * Update an employee role
-    */
   return inquirer.prompt([
     {
       type: "list",
@@ -181,31 +174,44 @@ const promptStart = () => {
       type: "list",
       name: "newEmployeeManager",
       message:
-        "Who is the new employee's manager? (SELECT from the list below)",
+        "Who is the new employee's MANAGER? (SELECT from the list below)",
       when: ({ mainMenu }) => {
         if (mainMenu === "Add an employee") {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      choices: dummyManagers,
+    },
+    {
+      type: "list",
+      name: "updateSelectEmployee",
+      message:
+        "Which EMPLOYEE would you like to update? (SELECT from the list below)",
+      when: ({ mainMenu }) => {
+        if (mainMenu === "Update an employee role") {
           return true;
         } else {
           false;
         }
       },
-      choices: dummyManagers,
+      choices: dummyEmployees,
     },
-
-    /*
-      Choosing to add an employee, ask:
-          * First name
-          * Last name
-          * Role
-          * Manager
-  */
+    {
+      type: "list",
+      name: "updateSelectRole",
+      message: "What should be their new ROLE? (SELECT from the list below)",
+      when: ({ mainMenu }) => {
+        if (mainMenu === "Update an employee role") {
+          return true;
+        } else {
+          false;
+        }
+      },
+      choices: dummyRoles,
+    },
   ]);
-
-  /*
-    Choosing to update an employee's role, ask:
-        * To select an employee
-        * Update role
-    */
 };
 
 promptStart().then((answers) => console.log(answers));
