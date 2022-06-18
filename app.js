@@ -6,6 +6,21 @@ const dummyDepartments = [
   "Facilities",
   "Warehouse",
 ];
+const dummyRoles = [
+  "Sales Person",
+  "Employee Relations",
+  "Accountant",
+  "Sanitation Technician",
+  "Warehouse Picker",
+];
+const dummyManagers = [
+  "Jonathan Joestar",
+  "Jotaro Kujo",
+  "Josuke Higashitaka",
+  "Giorno Giovanna",
+  "Jolyne Cujoh",
+  "Joseph Joestar",
+];
 
 const promptStart = () => {
   /*
@@ -127,6 +142,54 @@ const promptStart = () => {
           return false;
         }
       },
+    },
+    {
+      type: "input",
+      name: "newEmployeeLast",
+      message: "What is the new employee's LAST NAME? (Required)",
+      when: ({ mainMenu }) => {
+        if (mainMenu === "Add an employee") {
+          return true;
+        } else {
+          false;
+        }
+      },
+      validate: (newEmployeeLastInput) => {
+        if (newEmployeeLastInput) {
+          return true;
+        } else {
+          console.log("Please enter a valid LAST NAME!");
+          return false;
+        }
+      },
+    },
+    {
+      type: "list",
+      name: "newEmployeeTitle",
+      message:
+        "What is the JOB TITLE of the new employee? (SELECT from the list below)",
+      when: ({ mainMenu }) => {
+        if (mainMenu === "Add an employee") {
+          return true;
+        } else {
+          false;
+        }
+      },
+      choices: dummyRoles,
+    },
+    {
+      type: "list",
+      name: "newEmployeeManager",
+      message:
+        "Who is the new employee's manager? (SELECT from the list below)",
+      when: ({ mainMenu }) => {
+        if (mainMenu === "Add an employee") {
+          return true;
+        } else {
+          false;
+        }
+      },
+      choices: dummyManagers,
     },
 
     /*
