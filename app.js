@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const db = require("./db/connection");
+const Department = require("./lib/Department");
 
 // dummy data
 const dummyDepartments = [
@@ -234,7 +235,10 @@ const promptStart = () => {
 db.connect((err) => {
   if (err) throw err;
 
-  promptStart().then((answers) => console.log(answers));
+  promptStart().then((answers) => {
+    const department = new Department(answers);
+    department.getDepartments();
+  });
 });
 
 /*
