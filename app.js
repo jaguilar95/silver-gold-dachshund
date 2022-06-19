@@ -1,4 +1,7 @@
 const inquirer = require("inquirer");
+const db = require("./db/connection");
+
+// dummy data
 const dummyDepartments = [
   "Sales",
   "Human Resources",
@@ -228,7 +231,11 @@ const promptStart = () => {
   ]);
 };
 
-promptStart().then((answers) => console.log(answers));
+db.connect((err) => {
+  if (err) throw err;
+
+  promptStart().then((answers) => console.log(answers));
+});
 
 /*
 Choosing an to view all departments, show:
