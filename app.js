@@ -2,6 +2,7 @@ const inquirer = require("inquirer");
 const db = require("./db/connection");
 const Department = require("./lib/Department");
 const Role = require("./lib/Role");
+const Employee = require("./lib/Employee");
 
 // dummy data
 const dummyDepartments = [
@@ -251,6 +252,14 @@ function appStart() {
 
       return postViewDept;
     })
+    .then((postViewRoles) => {
+      if (postViewRoles && postViewRoles.mainMenu === "View all employees") {
+        const employees = new Employee(postViewRoles);
+        return employees.getEmployees();
+      }
+
+      return postViewRoles;
+    })
     .then((response) => {
       if (response && response.quitConfirm == true) {
         return db.end();
@@ -259,6 +268,9 @@ function appStart() {
       return setTimeout(() => {
         appStart();
       }, 300);
+    })
+    .catch((err) => {
+      console.error(err.message);
     });
 }
 
@@ -267,21 +279,3 @@ db.connect((err) => {
 
   appStart();
 });
-
-/*
-Choosing to view all roles, show:
-    * Job title
-    * Role id
-    * Department belonging to
-    * Salary (all for role)
-
-Choosing to view all employees, show:
-    * Employee data
-    * Employee id
-    * First name
-    * Last name
-    * Job Title
-    * Department
-    * Salary
-    * Manager
-*/
