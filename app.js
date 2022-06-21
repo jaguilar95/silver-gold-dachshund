@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const db = require("./db/connection");
 const Department = require("./lib/Department");
+const Role = require("./lib/Role");
 
 // dummy data
 const dummyDepartments = [
@@ -232,20 +233,42 @@ const promptStart = () => {
   ]);
 };
 
+function appStart() {
+  promptStart()
+    .then((answers) => {
+      if (answers.mainMenu === "View all departments") {
+        const departments = new Department(answers);
+        return departments.getDepartments();
+      }
+
+      return answers;
+    })
+    .then((postViewDept) => {
+      if (postViewDept && postViewDept.mainMenu === "View all roles") {
+        const roles = new Role(postViewDept);
+        return roles.getRoles();
+      }
+
+      return postViewDept;
+    })
+    .then((response) => {
+      if (response && response.quitConfirm == true) {
+        return db.end();
+      }
+
+      return setTimeout(() => {
+        appStart();
+      }, 300);
+    });
+}
+
 db.connect((err) => {
   if (err) throw err;
 
-  promptStart().then((answers) => {
-    const department = new Department(answers);
-    department.getDepartments();
-  });
+  appStart();
 });
 
 /*
-Choosing an to view all departments, show:
-    * Department names
-    * Department ids
-
 Choosing to view all roles, show:
     * Job title
     * Role id
