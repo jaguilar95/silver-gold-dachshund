@@ -9,9 +9,10 @@ const dummyDepartments = [
   "Sales",
   "Human Resources",
   "Accounting",
-  "Facilities",
   "Warehouse",
+  "Management",
 ];
+
 const dummyRoles = [
   "Sales Person",
   "Employee Relations",
@@ -19,6 +20,7 @@ const dummyRoles = [
   "Sanitation Technician",
   "Warehouse Picker",
 ];
+
 const dummyManagers = ["Jonathan Joestar", "Jotaro Kujo", "Josuke Higashitaka"];
 const dummyEmployees = [
   "Dio Brando",
@@ -237,34 +239,57 @@ const promptStart = () => {
 function appStart() {
   promptStart()
     .then((answers) => {
+      // checks to see if view all departments is called
       if (answers.mainMenu === "View all departments") {
+        // if called, get departments table
         const departments = new Department(answers);
         return departments.getDepartments();
       }
 
+      // if not called, passes answers object along
       return answers;
     })
     .then((postViewDept) => {
+      // checks to see if view all roles is called
       if (postViewDept && postViewDept.mainMenu === "View all roles") {
+        // if called, get roles table
         const roles = new Role(postViewDept);
         return roles.getRoles();
       }
 
+      // if not called, passes answers object along
       return postViewDept;
     })
     .then((postViewRoles) => {
+      // checks to see if view all roles is called
       if (postViewRoles && postViewRoles.mainMenu === "View all employees") {
+        // if called, get employees table
+
         const employees = new Employee(postViewRoles);
         return employees.getEmployees();
       }
 
+      // if not called, passes answers object along
       return postViewRoles;
     })
+    .then((postViewEmpl) => {
+      // checks to see if add department is called
+      if (postViewEmpl && postViewEmpl.mainMenu === "Add a department") {
+        // if called, add department
+        const department = new Department(postViewEmpl);
+        return department.addDepartment();
+      }
+
+      // if not called, passes answers object along
+      return postViewEmpl;
+    })
     .then((response) => {
+      // checks to see if quit app is confirmed
       if (response && response.quitConfirm == true) {
         return db.end();
       }
 
+      // if not, delays to allow table to console.log then loops
       return setTimeout(() => {
         appStart();
       }, 300);
@@ -274,6 +299,7 @@ function appStart() {
     });
 }
 
+// connect to database and start app
 db.connect((err) => {
   if (err) throw err;
 
